@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oklejamy.pl - Profesjonalne Oklejanie</title>
+    <link rel="stylesheet" href="{% static 'website/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">OKLEJAMY<span class="highlight">.PL</span></div>
+        <ul class="nav-links">
+            <li><a href="#">Start</a></li>
+            <li><a href="#oferta">Oferta</a></li>
+            <li><a href="#realizacje">Realizacje</a></li>
+            <li><a href="#kontakt" class="btn-contact">Kontakt</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Zmień oblicze <br> swojego samochodu</h1>
+            <p>Profesjonalny car wrapping, ochrona PPF i stylizacja aut.</p>
+            <a href="#oferta" class="cta-button">Sprawdź ofertę</a>
+        </div>
+    </header>
+
+    <section class="about-section">
+        <div class="about-container">
+            
+            <div class="about-text">
+                <span class="pre-header">POZNAJ WRAPMASTER</span>
+                <h2>Więcej niż tylko oklejanie</h2>
+                <p class="main-desc">
+                    Jesteśmy zespołem pasjonatów, dla których samochód to coś więcej niż środek transportu. 
+                    Nasza misja jest prosta: wydobyć z każdego auta jego unikalny charakter i zabezpieczyć go na lata.
+                </p>
+                <p>
+                    W WrapMaster nie uznajemy kompromisów. Każdy projekt traktujemy indywidualnie, 
+                    poświęcając mu tyle czasu, ile jest konieczne, by osiągnąć perfekcję.
+                </p>
+                
+                <ul class="mission-list">
+                    <li>✓ Precyzja chirurgiczna przy każdym cięciu</li>
+                    <li>✓ Materiały wyłącznie od certyfikowanych dostawców</li>
+                    <li>✓ Transparentność i uczciwa wycena</li>
+                </ul>
+            </div>
+
+            <div class="about-image">
+                <img src="{% static 'website/about.jpg' %}" alt="Nasz zespół przy pracy">
+                <div class="img-outline"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="oferta" class="services-section">
+        <h2 class="section-title">Nasze Usługi</h2>
+        <div class="grid-container">
+            {% for service in services %}
+            <div class="card service-card" 
+                 data-title="{{ service.title }}"
+                 data-desc="{{ service.description }}"
+                 {% if service.icon %}data-icon="{{ service.icon.url }}"{% endif %}>
+                
+                 <div class="card-image">
+                     {% if service.icon %}
+                     <img src="{{ service.icon.url }}" alt="{{ service.title }}">
+                     {% endif %}
+                 </div>
+                 <div class="card-content">
+                     <h3>{{ service.title }}</h3>
+                     <p>{{ service.description|truncatewords:20 }}</p>
+                     <span class="read-more">Czytaj więcej &rarr;</span>
+                 </div>
+             </div>
+            {% endfor %}
+        </div>
+    </section>
+    <section id="realizacje" class="portfolio-section">
+        <h2 class="section-title">Nasze Realizacje</h2>
+        <p class="section-subtitle">Zobacz efekty naszej pracy</p>
+        
+        <div class="portfolio-grid">
+            {% for item in portfolio %}
+            <div class="portfolio-item">
+                <img src="{{ item.image.url }}" alt="{{ item.title }}">
+                <div class="overlay">
+                    <span>{{ item.title }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    <section class="trust-section">
+        <div class="container">
+            <h2 class="section-title" style="color: #111;">Gwarancja Jakości</h2>
+            <p class="section-subtitle">Pracujemy tylko na certyfikowanych materiałach</p>
+
+            <div class="features-grid">
+                <div class="feature-box">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Gwarancja 3 lata</h3>
+                    <p>Na każdą wykonaną usługę udzielamy pisemnej gwarancji trwałości.</p>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-icon">📜</div>
+                    <h3>Certyfikowany Instalator</h3>
+                    <p>Jesteśmy przeszkoleni przez 3M Endorsed oraz Avery Dennison.</p>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-icon">💎</div>
+                    <h3>Folie Premium</h3>
+                    <p>Nie używamy chińskich zamienników. Tylko sprawdzone marki.</p>
+                </div>
+            </div>
+
+            <div class="partners-row">
+                <img src="{% static 'website/partners/3m-Endorsed.png' %}" alt="3M" class="partner-img">
+                <img src="{% static 'website/partners/Avery_dennison.png' %}" alt="Avery" class="partner-img">
+                <img src="{% static 'website/partners/Arlon.png' %}" alt="Arlon" class="partner-img">
+                <img src="{% static 'website/partners/KPMF_premium.png' %}" alt="KPMF Premium" class="partner-img">
+                </div>
+        </div>
+    </section>
+    <section id="kontakt" class="contact-section">
+        <div class="contact-container">
+            
+            <div class="contact-info">
+                <h2 class="section-title white-text">Skontaktuj się z nami</h2>
+                <p class="contact-desc">Masz pytania? Chcesz wycenić oklejanie? Zadzwoń lub odwiedź nas.</p>
+                
+                <div class="info-item">
+                    <h3>📞 Telefon</h3>
+                    <p>+48 123 456 789</p>
+                </div>
+                
+                <div class="info-item">
+                    <h3>✉️ E-mail</h3>
+                    <p><a href="mailto:biuro@wrapmaster.pl" style="color: #ccc; text-decoration: none;">biuro@wrapmaster.pl</a></p>
+                </div>
+
+                <div class="info-item">
+                    <h3>📍 Adres</h3>
+                    <p>ul. Prosta 15<br>00-001 Warszawa</p>
+                </div>
+
+                <div class="info-item">
+                    <h3>🕒 Godziny otwarcia</h3>
+                    <p>Pn - Pt: 9:00 - 17:00<br>Sb: 10:00 - 14:00</p>
+                </div>
+            </div>
+
+            <div class="contact-map">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2443.805400782397!2d21.01222871579663!3d52.22967567975988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471ecc669a869f01%3A0x72f0be2a99d748!2sPa%C5%82ac%20Kultury%20i%20Nauki!5e0!3m2!1spl!2spl!4v1626101234567!5m2!1spl!2spl" 
+                    width="100%" 
+                    height="100%" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Oklejamy.pl - Wszystkie prawa zastrzeżone.</p>
+        <p>Kontakt: <a href="mailto:biuro@wrapmaster.pl" style="color: #e63946; text-decoration: none;">biuro@wrapmaster.pl</a></p>
+        <p>Projekt i realizacja: <strong>Karol Masiak</strong></p>
+    </footer>
+    <div id="lightbox" class="lightbox">
+        <span class="close-btn">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+        <div id="caption"></div>
+    </div>
+    <div id="service-modal" class="modal-overlay">
+        <div class="modal-card">
+            <span class="close-service-btn">&times;</span>
+            <div class="modal-header">
+                <img id="modal-icon" src="" alt="">
+                <h2 id="modal-title"></h2>
+            </div>
+            <div class="modal-body">
+                <p id="modal-desc"></p>
+                <a href="#kontakt" class="modal-cta" onclick="closeServiceModal()">Zamów tę usługę</a>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'website/main.js' %}"></script>
+
+</body>
+</html>
