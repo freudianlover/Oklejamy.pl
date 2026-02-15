@@ -3,7 +3,7 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Oklejamy.pl - Profesjonalne Oklejanie</title>
     <link rel="stylesheet" href="{% static 'website/style.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
@@ -12,6 +12,13 @@
 
     <nav class="navbar">
         <div class="logo">OKLEJAMY<span class="highlight">.PL</span></div>
+
+        <div class="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
         <ul class="nav-links">
             <li><a href="#">Start</a></li>
             <li><a href="#oferta">Oferta</a></li>
@@ -39,7 +46,7 @@
                     Nasza misja jest prosta: wydobyć z każdego auta jego unikalny charakter i zabezpieczyć go na lata.
                 </p>
                 <p>
-                    W WrapMaster nie uznajemy kompromisów. Każdy projekt traktujemy indywidualnie, 
+                    Jesteśmy na rynku od ponad 20 lat. Każdy projekt traktujemy indywidualnie, 
                     poświęcając mu tyle czasu, ile jest konieczne, by osiągnąć perfekcję.
                 </p>
                 
@@ -88,13 +95,22 @@
         <div class="portfolio-grid">
             {% for item in portfolio %}
             <div class="portfolio-item">
-                <img src="{{ item.image.url }}" alt="{{ item.title }}">
+                <img src="{{ item.image.url }}" alt="{{ item.title }}" class="thumb-img">
                 <div class="overlay">
                     <span>{{ item.title }}</span>
+                </div>
+                
+                <div class="gallery-data" style="display: none;">
+                    <span data-src="{{ item.image.url }}"></span>
+                    {% for gal_img in item.images.all %}
+                        <span data-src="{{ gal_img.image.url }}"></span>
+                    {% endfor %}
                 </div>
             </div>
             {% endfor %}
         </div>
+
+
     </section>
     <section class="trust-section">
         <div class="container">
@@ -109,8 +125,8 @@
                 </div>
                 <div class="feature-box">
                     <div class="feature-icon">📜</div>
-                    <h3>Certyfikowany Instalator</h3>
-                    <p>Jesteśmy przeszkoleni przez 3M Endorsed oraz Avery Dennison.</p>
+                    <h3>Umiejętności poświadczone certyfikatami</h3>
+                    <p>Jesteśmy przeszkoleni przez 3M Endorsed(2004), Avery Dennison(2012) oraz VW Września(2020).</p>
                 </div>
                 <div class="feature-box">
                     <div class="feature-icon">💎</div>
@@ -121,9 +137,8 @@
 
             <div class="partners-row">
                 <img src="{% static 'website/partners/3m-Endorsed.png' %}" alt="3M" class="partner-img">
-                <img src="{% static 'website/partners/Avery_dennison.png' %}" alt="Avery" class="partner-img">
-                <img src="{% static 'website/partners/Arlon.png' %}" alt="Arlon" class="partner-img">
-                <img src="{% static 'website/partners/KPMF_premium.png' %}" alt="KPMF Premium" class="partner-img">
+                <img src="{% static 'website/partners/Avery_red.png' %}" alt="Avery" class="partner-img">
+                <img src="{% static 'website/partners/transparent_VW.png' %}" alt="VW_września" class="partner-img">
                 </div>
         </div>
     </section>
@@ -173,11 +188,18 @@
         <p>Kontakt: <a href="mailto:biuro@wrapmaster.pl" style="color: #e63946; text-decoration: none;">biuro@wrapmaster.pl</a></p>
         <p>Projekt i realizacja: <strong>Karol Masiak</strong></p>
     </footer>
+    
     <div id="lightbox" class="lightbox">
         <span class="close-btn">&times;</span>
+        
+        <a class="prev-btn">&#10094;</a>
+        <a class="next-btn">&#10095;</a>
+        
         <img class="lightbox-content" id="lightbox-img">
         <div id="caption"></div>
+        <div id="image-counter" style="color: #aaa; text-align: center; margin-top: 10px; font-size: 0.9rem;"></div>
     </div>
+
     <div id="service-modal" class="modal-overlay">
         <div class="modal-card">
             <span class="close-service-btn">&times;</span>

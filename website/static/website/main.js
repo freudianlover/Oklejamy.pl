@@ -2,10 +2,77 @@
 document.addEventListener('DOMContentLoaded', function() {
     
     // 1. Pobieramy elementy Lightboxa z HTML
-    var modal = document.getElementById("lightbox");
-    var modalImg = document.getElementById("lightbox-img");
-    var captionText = document.getElementById("caption");
-    var closeBtn = document.getElementsByClassName("close-btn")[0];
+    // --- ZAKTUALIZOWANA CZĘŚĆ 1: LIGHTBOX GALERIA ---
+    const modal = document.getElementById("lightbox");
+    const modalImg = document.getElementById("lightbox-img");
+    const captionText = document.getElementById("caption");
+    const counterText = document.getElementById("image-counter");
+    const closeBtn = document.querySelector(".close-btn");
+    const prevBtn = document.querySelector(".prev-btn");
+    const nextBtn = document.querySelector(".next-btn");
+
+    // Zmienne do przechowywania stanu aktualnej galerii
+    let currentGallery = [];
+    let currentIndex = 0;
+
+    // Pobieramy wszystkie KAFELKI projektów
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+    portfolioItems.forEach(item => {
+        item.addEventListener('click', function() {
+            // 1. Znajdź wszystkie ukryte adresy zdjęć w tym konkretnym kafelku
+            const dataSpans = this.querySelectorAll('.gallery-data span');
+            
+            // 2. Przekonwertuj je na tablicę (array) adresów URL
+            currentGallery = Array.from(dataSpans).map(span => span.getAttribute('data-src'));
+            
+            // 3. Ustaw początkowy indeks na 0 (okładka)
+            currentIndex = 0;
+            
+            // 4. Pobierz tytuł (z nakładki overlay)
+            const title = this.querySelector('.overlay span').innerText;
+            captionText.innerHTML = title;
+
+            // 5. Pokaż okno i pierwsze zdjęcie
+            modal.style.display = "block";
+            updateLightbox();
+        });
+    });
+
+    // Funkcja aktualizująca zdjęcie w oknie
+    function updateLightbox() {
+        modalImg.src = currentGallery[currentIndex];
+        counterText.innerText = `Zdjęcie ${currentIndex + 1} z ${currentGallery.length}`;
+        
+        // Ukryj strzałki, jeśli galeria ma tylko 1 zdjęcie
+        if (currentGallery.length <= 1) {
+            prevBtn.style.display = "none";
+            nextBtn.style.display = "none";
+        } else {
+            prevBtn.style.display = "block";
+            nextBtn.style.display = "block";
+        }
+    }
+
+    // Kliknięcie w Nastepne
+    nextBtn.addEventListener('click', function(e) {
+        e.stopPropagation(); // Zapobiega zamknięciu tła przy klikaniu strzałki
+        currentIndex = (currentIndex + 1) % currentGallery.length; // Zapętlanie galerii
+        updateLightbox();
+    });
+
+    // Kliknięcie w Poprzednie
+    prevBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length; // Zapętlanie w tył
+        updateLightbox();
+    });
+
+    // Zamykanie okna
+    closeBtn.onclick = function() { modal.style.display = "none"; }
+    modal.addEventListener('click', function(event) {
+        if (event.target === modal) { modal.style.display = "none"; }
+    });
 
     // --- CZĘŚĆ 2: MODAL DLA USŁUG ---
 
@@ -86,8 +153,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 5. Funkcja zamykania po kliknięciu w czarne tło (obok zdjęcia)
     modal.addEventListener('click', function(event) {
-        if (event.target === modal) {
+         if (event.target === modal) {
             modal.style.display = "none";
-        }
+         }
     });
+          // --- CZĘŚĆ 3: HAMBURGER MENU ---
+    const hamburger = document.querySelector(".hamburger");
+    const navLinks = document.querySelector(".nav-links");
+    const links = document.querySelectorAll(".nav-links li a");
+
+    if (hamburger) {
+    // Kliknięcie w hamburgera wysuwa/chowa menu i animuje ikonę w X
+    hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("active");
+        navLinks.classList.toggle("active");
+    });
+
+    // ŚWIETNY UX: Zamykanie menu po kliknięciu w dowolny link!
+    // Gdy klient kliknie "Oferta", strona zjedzie w dół, a menu samo się schowa.
+    links.forEach(link => {
+        link.addEventListener("click", () => {
+            hamburger.classList.remove("active");
+            navLinks.classList.remove("active");
+        });
+    });
+    }
 });
